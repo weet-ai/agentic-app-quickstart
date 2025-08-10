@@ -5,12 +5,18 @@ This repo contains code examples, templates and assignments for the [Mastering A
 
 ## 🚀 Quick Start
 
+### Use this template
+
+This repo is a Github Template. You can quickly use it by creating on the "Use Template" button on top right. You can then create a clone of this repo in your own organization or profile. If you're not familiar with Templates, this is a nice guide: [link](https://dev.to/jajera/how-to-create-and-use-a-github-repository-template-2g7l)
+
 ### Option 1: GitHub Codespaces (Recommended)
 
 1. Click the "Code" button on this repository
 2. Select "Codespaces" tab
 3. Click "Create codespace on main"
 4. Wait for the environment to set up automatically
+
+Need more details? Check out this [link](https://docs.github.com/en/enterprise-cloud@latest/codespaces/developing-in-a-codespace/creating-a-codespace-from-a-template).
 
 ### Option 2: Local Development Container
 

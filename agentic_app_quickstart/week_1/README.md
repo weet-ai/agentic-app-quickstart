@@ -125,7 +125,7 @@ Before you start coding, study these example files:
 - `examples/code/05_handoffs.py` - Multi-agent coordination
 
 ### Step 2: Plan Your Architecture
-**Reflection Questions** (Udacity-style):
+**Reflection Questions**
 - Will you use a single agent or multiple agents? Why?
 - What functions does your agent need to analyze CSV data?
 - How will you handle edge cases (empty files, missing columns)?
