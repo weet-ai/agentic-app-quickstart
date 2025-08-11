@@ -16,7 +16,7 @@ from agents import Agent, Runner, set_tracing_disabled
 from agentic_app_quickstart.examples.helpers import get_model
 
 # Disable tracing, since it will try to push data to OpenAI
-set_tracing_disabled()
+set_tracing_disabled(True)
 
 # Create an AI agent with specific instructions
 # The agent is like a specialized AI assistant with a defined role
