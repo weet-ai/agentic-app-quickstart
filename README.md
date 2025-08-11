@@ -52,9 +52,13 @@ Configure the following environment variables in `.env`:
 
 ```
 # OpenAI API Configuration
-OPENAI_API_ENDPOINT="api_url"
+OPENAI_API_ENDPOINT="https://api.hexflow.ai"
 OPENAI_API_KEY="your_openai_api_key_here"
 ```
+
+ℹ️ If you're experiencing connection issues (e.g. SSL Handshake Issues)
+1. Try using mobile data instead of WiFi
+2. Use this alternative URL: https://hexflow-g9bqfbexhmfyazat.z03.azurefd.net
 
 🔴 **IMPORTANT**: `.env` is already included in `.gitignore`, so it won't be pushed to your Github Repo. Don't remove it from there and don't store these credentials elsewhere, otherwise the will be publicly available!
 
