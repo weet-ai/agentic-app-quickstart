@@ -1,22 +1,7 @@
 {
   "name": "Agentic App Quickstart",
-  "image": "python:3.13-slim",
-  
-  // Features to add to the dev container
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
-      "configureZshAsDefaultShell": true,
-      "installOhMyZsh": true,
-      "upgradePackages": true,
-      "username": "vscode",
-      "userUid": "1000",
-      "userGid": "1000"
-    },
-    "ghcr.io/devcontainers/features/git:1": {
-      "ppa": true,
-      "version": "os-provided"
-    }
+  "build": {
+    "dockerfile": "Dockerfile"
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally
   "forwardPorts": [8000, 8080, 3000, 5000],
@@ -30,7 +15,7 @@
         "github.copilot-chat"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.defaultInterpreterPath": "python",
         "python.formatting.provider": "ruff",
         "python.linting.enabled": true,
         "editor.formatOnSave": true,
@@ -41,7 +26,7 @@
     }
   },
   // Use 'postCreateCommand' to run commands after the container is created
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "uv sync",
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root
   "remoteUser": "vscode",
   // Keep container running after VS Code is closed
