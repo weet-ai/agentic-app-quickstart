@@ -26,10 +26,11 @@ agent = Agent(
     model=get_model(),  # The AI model that powers the agent (e.g., GPT-4)
 )
 
+
 async def main():
     """
     Main function that runs the agent conversation.
-    
+
     The Runner.run() method:
     - Takes a starting agent and user input
     - Handles the conversation flow between user and agent

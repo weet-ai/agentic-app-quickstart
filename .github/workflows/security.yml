@@ -1,0 +1,36 @@
+name: Security Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+
+    - name: Install dependencies
+      run: |
+        uv sync --group dev
+
+    - name: Run pre-commit hooks
+      run: |
+        uv run pre-commit run --all-files
+
+    - name: Check .env.example for real API keys
+      run: |
+        if [ -f ".env.example" ]; then
+          uv run python scripts/check_env_example.py .env.example
+        fi
