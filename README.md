@@ -83,7 +83,27 @@ uv run python examples/code/01...
 
 You can customize the development environment by editing:
 - `.devcontainer/devcontainer.json` - Container configuration
-- `.devcontainer/setup.sh` - Installation script
+
+## 🔒 Security Features
+
+This project includes several security measures to prevent accidental exposure of API keys:
+
+### Pre-commit Hooks
+- **API Key Detection**: Automatically checks `.env.example` files for real API keys before commits
+- **Code Quality**: Runs `ruff` for linting and formatting
+- **General Security**: Detects private keys, large files, and other security issues
+
+### Manual Security Check
+You can manually check your `.env.example` file anytime:
+```bash
+uv run python scripts/check_env_example.py .env.example
+```
+
+### CI/CD Security
+- GitHub Actions automatically run security checks on all PRs
+- Prevents merging code with potential API key leaks
+
+**Remember**: Always use placeholder values in `.env.example` and keep real API keys in `.env` (which is gitignored)!
 
 
 ## Troubleshooting & Support

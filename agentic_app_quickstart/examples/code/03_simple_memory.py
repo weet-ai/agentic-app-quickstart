@@ -38,42 +38,43 @@ session = SQLiteSession(session_id=123)
 agent = Agent(
     name="HelloWorldAgent",
     instructions="You are an agent that keeps a nice conversation with the user",
-    model=get_model()  # The underlying AI model
+    model=get_model(),  # The underlying AI model
 )
+
 
 async def main():
     """
     Main function that runs a continuous conversation loop.
-    
+
     The agent will:
     1. Remember everything from previous messages in this session
     2. Use that context to provide more relevant responses
     3. Build rapport and continuity across multiple interactions
-    
+
     Try asking follow-up questions or referencing something you said earlier
     to see the memory in action!
     """
     print("Starting conversation with memory-enabled agent...")
     print("Type 'quit' or 'exit' to end the conversation.\n")
-    
+
     while True:
         # Get user input
         prompt = input("You: ")
-        
+
         # Check if user wants to exit
-        if prompt.lower() in ['quit', 'exit', 'bye']:
+        if prompt.lower() in ["quit", "exit", "bye"]:
             print("Goodbye!")
             break
-        
+
         # Run the agent with the session (memory) included
-        # The session parameter is what enables memory - without it, 
+        # The session parameter is what enables memory - without it,
         # each interaction would be independent
         result = await Runner.run(
-            starting_agent=agent, 
-            input=prompt, 
-            session=session  # This is the key to enabling memory!
+            starting_agent=agent,
+            input=prompt,
+            session=session,  # This is the key to enabling memory!
         )
-        
+
         # Print the agent's response
         print(f"\nAgent: {result.final_output}\n")
 

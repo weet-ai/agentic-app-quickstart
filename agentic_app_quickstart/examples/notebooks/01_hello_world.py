@@ -22,16 +22,13 @@ def _():
 
 @app.cell
 def _(Agent, get_model):
-    agent = Agent(
-        name = "My hello world agent",
-        model=get_model()
-    )
+    agent = Agent(name="My hello world agent", model=get_model())
     return (agent,)
 
 
 @app.cell
 async def _(Runner, agent):
-    result = await Runner.run(starting_agent = agent, input = "hello")
+    result = await Runner.run(starting_agent=agent, input="hello")
     return (result,)
 
 
