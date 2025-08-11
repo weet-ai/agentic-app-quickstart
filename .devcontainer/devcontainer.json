@@ -3,6 +3,16 @@
   "image": "ghcr.io/astral-sh/uv:python3.13-bookworm",
   // Use 'forwardPorts' to make a list of ports inside the container available locally
   "forwardPorts": [8000, 8080, 3000, 5000],
+  // Add features to create vscode user and install common utilities
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "username": "vscode",
+      "uid": "1000",
+      "gid": "1000",
+      "upgradePackages": true
+    }
+  },
   // Configure tool-specific properties
   "customizations": {
     "vscode": {
