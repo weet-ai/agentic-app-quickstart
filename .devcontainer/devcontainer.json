@@ -19,6 +19,7 @@
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
+        "agilepartner.python-envy",
         "github.copilot",
         "github.copilot-chat"
       ],
