@@ -25,12 +25,7 @@ jobs:
       run: |
         uv sync --group dev
 
-    - name: Run pre-commit hooks
+    - name: Run security check for prx_live tokens
       run: |
-        uv run pre-commit run --all-files
-
-    - name: Check .env.example for real API keys
-      run: |
-        if [ -f ".env.example" ]; then
-          uv run python scripts/check_env_example.py .env.example
-        fi
+        # Run only the security check hook, skip formatting/linting
+        uv run pre-commit run check-env-secrets --all-files
