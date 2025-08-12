@@ -12,6 +12,9 @@ def check_env_vars():
         console.print(
             "[bold red]Warning:[/bold red] OPENAI_API_KEY must be set to 'prx_live_<YOUR_API_KEY>'."
         )
+        console.print(
+            "[bold red]Don't forget to set it up before running the examples 😃"
+        )
     else:
         console.print(
             "[bold green]Success:[/bold green] OPENAI_API_KEY is set correctly."
@@ -19,6 +22,9 @@ def check_env_vars():
     if not base_url or base_url != "https://api.hexflow.ai":
         console.print(
             "[bold red]Warning:[/bold red] OPENAI_API_ENDPOINT must be set to 'https://api.hexflow.ai'."
+        )
+        console.print(
+            "[bold red]Don't forget to set it up before running the examples 😃"
         )
     else:
         console.print(
