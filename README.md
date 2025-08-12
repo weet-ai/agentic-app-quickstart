@@ -48,12 +48,13 @@ The development environment comes pre-configured with:
 
 ## GPT API Keys
 
-Configure the following environment variables in `.env`:
+Make sure that the following is part of your `.env` file at the root of this folder:
 
 ```
 # OpenAI API Configuration
 OPENAI_API_ENDPOINT="https://api.hexflow.ai"
 OPENAI_API_KEY="your_openai_api_key_here"
+OPENAI_AGENTS_DISABLE_TRACING=1
 ```
 
 ℹ️ If you're experiencing connection issues (e.g. SSL Handshake Issues)
@@ -62,49 +63,62 @@ OPENAI_API_KEY="your_openai_api_key_here"
 
 🔴 **IMPORTANT**: `.env` is already included in `.gitignore`, so it won't be pushed to your Github Repo. Don't remove it from there and don't store these credentials elsewhere, otherwise the will be publicly available!
 
-## 📦 Package Management
+## OpenAI Agents SDK Setup & Troubleshooting
 
-This template uses [uv](https://github.com/astral-sh/uv) for fast and reliable Python package management:
+### Configuring models
 
-```bash
-# Install dependencies
-pip install -U pip uv
-uv sync
+An OpenAI model is already configured for you in the `examples/helpers.py` module.
 
-# Add new packages
-uv add package-name
-uv venv
+If you prefer to include model configuration in your custom modules, you can simply copy this excerpt:
 
-# Run commands with uv run
-uv run python examples/code/01...
+```python
+
+from openai import AsyncOpenAI
+from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def get_client():
+    api_key = os.getenv("OPENAI_API_KEY")
+    base_url = os.getenv("OPENAI_API_ENDPOINT")
+
+    if not api_key:
+        raise ValueError(
+            "OPENAI_API_KEY environment variable is required. "
+            "Please create a .env file with your API key. "
+            "See .env.example for reference."
+        )
+
+    if not base_url:
+        print("Warning: OPENAI_API_ENDPOINT not set, using default OpenAI endpoint")
+
+    return AsyncOpenAI(api_key=api_key, base_url=base_url)
+
+
+def get_model():
+    model = OpenAIChatCompletionsModel(
+        model="gpt-4o",  # Changed from gpt-4.1 which may not exist
+        openai_client=get_client(),
+    )
+
+    return model
 ```
 
-## 🔧 Customization
+### Errors
 
-You can customize the development environment by editing:
-- `.devcontainer/devcontainer.json` - Container configuration
+If you get errors like this one when running the examples:
 
-## 🔒 Security Features
-
-This project includes several security measures to prevent accidental exposure of API keys:
-
-### Pre-commit Hooks
-- **API Key Detection**: Automatically checks `.env.example` files for real API keys before commits
-- **Code Quality**: Runs `ruff` for linting and formatting
-- **General Security**: Detects private keys, large files, and other security issues
-
-### Manual Security Check
-You can manually check your `.env.example` file anytime:
 ```bash
-uv run python scripts/check_env_example.py .env.example
+Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
 ```
 
-### CI/CD Security
-- GitHub Actions automatically run security checks on all PRs
-- Prevents merging code with potential API key leaks
+This indicates that [tracing](https://openai.github.io/openai-agents-python/tracing/) is probably enabled. Make sure that the following line is part of your `.env` file:
 
-**Remember**: Always use placeholder values in `.env.example` and keep real API keys in `.env` (which is gitignored)!
-
+```
+OPENAI_AGENTS_DISABLE_TRACING=1
+```
 
 ## Troubleshooting & Support
 
