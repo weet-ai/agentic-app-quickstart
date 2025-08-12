@@ -3,4 +3,4 @@
 export OPENAI_AGENTS_DISABLE_TRACING=1 && \
 uv run python scripts/check_env_vars.py && \
 cp .env.example .env && \
-rm -rf .env.example
+rm -rf ../.env.example
