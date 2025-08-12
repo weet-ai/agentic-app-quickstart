@@ -8,6 +8,7 @@ dependencies = [
     "marimo>=0.14.16",
     "openai>=1.99.1",
     "openai-agents>=0.2.4",
+    "rich>=14.1.0",
     "tweepy>=4.16.0",
 ]
 

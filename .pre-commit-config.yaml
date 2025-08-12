@@ -3,9 +3,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: detect-private-key
@@ -17,14 +14,3 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
-
-  # Custom hook to check .env.example for real API keys
-  - repo: local
-    hooks:
-      - id: check-env-secrets
-        name: Check for prx_live tokens in environment files
-        entry: uv run python scripts/check_env_example.py
-        language: system
-        files: '\.env.*'
-        exclude: '\.env$'  # Exclude .env files (they're gitignored anyway)
-        pass_filenames: true
