@@ -114,7 +114,7 @@ If you get errors like this one when running the examples:
 Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope************here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
 ```
 
-This indicates that [tracing](https://openai.github.io/openai-agents-python/tracing/) is probably enabled. Make sure that the following line is part of your `.env` file:
+This indicates that [tracing](https://openai.github.io/openai-agents-python/tracing/) is probably enabled. This is a warning, not an error, so you can simply ignore it. If you want to avoid it, make sure that the following line is part of your `.env` file:
 
 ```
 OPENAI_AGENTS_DISABLE_TRACING=1
