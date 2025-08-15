@@ -15,10 +15,9 @@
       "username": "vscode",
       "uid": "1000",
       "gid": "1000",
-      "upgradePackages": true,
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "privileged": true
-    }
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   // Configure tool-specific properties
   "customizations": {
@@ -34,7 +33,6 @@
         "python.defaultInterpreterPath": "python",
         "python.formatting.provider": "ruff",
         "python.linting.enabled": true,
-        "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
           "source.organizeImports": "explicit"
         }
@@ -47,5 +45,7 @@
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root
   "remoteUser": "vscode",
   // Keep container running after VS Code is closed
-  "shutdownAction": "none"
+  "shutdownAction": "none",
+  // Required for Docker-in-Docker
+  "privileged": true
 }
