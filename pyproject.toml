@@ -5,9 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "arize-phoenix==11.21.0",
+    "gradio>=5.42.0",
     "marimo>=0.14.16",
     "openai>=1.99.1",
     "openai-agents>=0.2.4",
+    "openinference-instrumentation-openai-agents>=1.1.1",
     "rich>=14.1.0",
     "tweepy>=4.16.0",
 ]
