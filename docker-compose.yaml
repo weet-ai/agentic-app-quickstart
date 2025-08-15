@@ -1,0 +1,10 @@
+services:
+  app:
+    image: myagent
+    ports:
+      - "8000:8000"  # Uses PORT from .env
+    environment:
+      - OPENAI_API_ENDPOINT=${OPENAI_API_ENDPOINT}  # Uses OPENAI_API_ENDPOINT from .env
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PHOENIX_API_KEY=${PHOENIX_API_KEY}
+      - OPENAI_AGENTS_DISABLE_TRACING=${OPENAI_AGENTS_DISABLE_TRACING}

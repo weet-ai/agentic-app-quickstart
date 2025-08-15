@@ -40,7 +40,7 @@
     }
   },
   // Sync dependencies and setup pre-commit after container creation
-  "postCreateCommand": "uv sync --group dev && uv run pre-commit install",
+  "postCreateCommand": "cd agentic_app_quickstart && uv sync --group dev && uv run pre-commit install",
   "postStartCommand": "bash .devcontainer/script.sh",
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root
   "remoteUser": "vscode",
