@@ -1,14 +1,10 @@
 from agents import Agent, Runner
 import gradio as gr
-from agentic_app_quickstart.examples.helpers import get_model
-from phoenix.otel import register
+from agentic_app_quickstart.examples.helpers import get_model, get_tracing_provider
 
-tracing_provider = register(
-    endpoint="https://app.phoenix.arize.com/s/hello6069/v1/traces",
-    project_name="gradio",
-    protocol="http/protobuf",
-    auto_instrument=True,
-)
+
+tracing_provider = get_tracing_provider()
+
 
 agent = Agent(
     name="Assistant", instructions="You are a helpful assistant.", model=get_model()

@@ -20,15 +20,9 @@ Use cases:
 
 import asyncio
 from agents import Agent, Runner
-from agentic_app_quickstart.examples.helpers import get_model
-from phoenix.otel import register
+from agentic_app_quickstart.examples.helpers import get_model, get_tracing_provider
 
-tracing_provider = register(
-    endpoint="https://app.phoenix.arize.com/s/hello6069/v1/traces",
-    project_name="agentic_app_quickstart",
-    protocol="http/protobuf",
-    auto_instrument=True
-)
+tracing_provider = get_tracing_provider()
 
 # Create specialized agents for different domains
 

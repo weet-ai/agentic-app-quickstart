@@ -220,7 +220,7 @@ By completing this assignment, you will:
 1. **Start with the examples** - They contain 90% of what you need to know!
 2. **Office hours** - Every Tuesday, 7 PM GMT+2
 3. **#help channel** - Help your classmates and get help back
-4. **Documentation** - Check the openai-agents package docs
+4. **Documentation** - Check the [openai-agents](https://openai.github.io/openai-agents-python/) package docs
 
 **Remember**: The goal isn't to build the perfect system on the first try. It's to learn by doing, make mistakes, and iterate! 🔄
 

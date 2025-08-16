@@ -1,7 +1,9 @@
 from openai import AsyncOpenAI
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 import os
+from phoenix.otel import register
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -30,3 +32,15 @@ def get_model():
     )
 
     return model
+
+
+def get_tracing_provider():
+
+    tracing_provider = register(
+        endpoint=os.getenv("PHOENIX_ENDPOINT"),
+        project_name="agentic_app_quickstart",
+        protocol="http/protobuf",
+        auto_instrument=True
+    )
+
+    return tracing_provider
