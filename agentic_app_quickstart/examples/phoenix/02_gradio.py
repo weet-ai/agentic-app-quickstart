@@ -4,7 +4,7 @@ from agentic_app_quickstart.examples.helpers import get_model
 from phoenix.otel import register
 
 tracing_provider = register(
-    endpoint="https://app.phoenix.arize.com/s/enterpriseagentsmcp/v1/traces",
+    endpoint="https://app.phoenix.arize.com/s/hello6069/v1/traces",
     project_name="gradio",
     protocol="http/protobuf",
     auto_instrument=True,
@@ -13,7 +13,6 @@ tracing_provider = register(
 agent = Agent(
     name="Assistant", instructions="You are a helpful assistant.", model=get_model()
 )
-
 
 # Define the Gradio chat interface function as async
 async def chat_with_agent(message, history):

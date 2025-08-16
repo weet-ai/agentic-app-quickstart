@@ -24,10 +24,10 @@ from agentic_app_quickstart.examples.helpers import get_model
 from phoenix.otel import register
 
 tracing_provider = register(
-    endpoint="https://app.phoenix.arize.com/s/enterpriseagentsmcp/v1/traces",
+    endpoint="https://app.phoenix.arize.com/s/hello6069/v1/traces",
     project_name="agentic_app_quickstart",
     protocol="http/protobuf",
-    auto_instrument=True,
+    auto_instrument=True
 )
 
 # Create specialized agents for different domains
