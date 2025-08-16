@@ -167,7 +167,7 @@ week_1/
 ├── README.md                    # This file
 ├── solution/
     ├── main.py                  # Your main application
-    ├── agents.py                # Agent definitions
+    ├── agent.py                 # Agent definitions
     ├── tools.py                 # Function tool implementations  
     └── data/
         ├── sample_sales.csv
@@ -218,7 +218,7 @@ By completing this assignment, you will:
 **Stuck? Here's your support system:**
 
 1. **Start with the examples** - They contain 90% of what you need to know!
-2. **Office hours** - Every Tuesday, 2-4 PM
+2. **Office hours** - Every Tuesday, 7 PM GMT+2
 3. **#help channel** - Help your classmates and get help back
 4. **Documentation** - Check the openai-agents package docs
 
@@ -230,7 +230,7 @@ By completing this assignment, you will:
 ## 📅 Important Dates
 
 - **Assignment Release**: August 10, 2025
-- **Submission Deadline**: August 15, 2025, 11:59 PM
+- **Submission Deadline**: August 18, 2025, 11:59 PM
 - **Peer Review**: August 22, 2025 (optional but encouraged!)
 
 ---
