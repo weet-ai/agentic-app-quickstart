@@ -7,9 +7,8 @@ Welcome to your second agentic systems challenge! Now that you've built your fir
 ### 🎪 The Challenge
 
 Your task is to implement comprehensive monitoring and observability for your agentic system using industry-standard tools:
-- 📊 **OpenTelemetry** for distributed tracing 
-- 🌟 **Phoenix Arize** for visualization and analysis
-- 🤖 **LLM-as-a-Judge** for automated evaluation (bonus!)
+- 🌟 **[Phoenix Arize](https://phoenix.arize.com/)** for distributed tracing, visualization and analysis
+- 🤖 **[LLM-as-a-Judge](https://arize.com/docs/phoenix/learn/evaluation/llm-as-a-judge)** for automated evaluation (bonus!)
 
 **Real-world scenario**: Imagine you're deploying your agent to production and need to monitor its performance, debug issues, and ensure quality - just like how Netflix monitors their recommendation algorithms or how Uber tracks their routing systems!
 
@@ -36,7 +35,7 @@ Real agentic systems need:
 ## 🧰 Required Features (Core Assignment)
 
 ### 1. **Phoenix Arize Setup** 🌟
-- Create a free Phoenix Arize account
+- Create a free [Phoenix Arize](https://arize.com/docs/phoenix/learn/evaluation/llm-as-a-judge) account
 - Set up a new project for your agent
 - Generate and configure your API key
 - Establish secure connection from your local environment
