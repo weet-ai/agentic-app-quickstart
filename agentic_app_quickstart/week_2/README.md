@@ -300,7 +300,7 @@ with tracer.start_as_current_span("llm_call") as span:
 - **Throughput**: Conversations per minute/hour
 - **Token Usage**: Input/output tokens per conversation
 - **Cost**: Dollar cost per conversation/day/month
-- **Success Rate**: Percentage of successful vs failed interactions
+- **Agent Handoffs**: which agents transferred to which, when and why
 - **Tool Usage**: Which tools are used most frequently
 - **Error Rates**: Types and frequency of errors
 
@@ -311,10 +311,8 @@ with tracer.start_as_current_span("llm_call") as span:
 **Stuck? Here's your support system:**
 
 1. **Phoenix Arize Documentation** - Comprehensive guides and tutorials
-2. **OpenTelemetry Python Documentation** - Official implementation guides
-3. **Office hours** - Every Thursday, 7 PM GMT+2
-4. **#week2-observability channel** - Dedicated support for this assignment
-5. **#help channel** - General questions and peer assistance
+2. **Office hours** - Every Thursday, 7 PM GMT+2
+3. **#help channel** - General questions and peer assistance
 
 **Pro Tips:**
 - Start with basic auto-instrumentation before adding custom spans
@@ -326,18 +324,16 @@ with tracer.start_as_current_span("llm_call") as span:
 
 ## 📅 Important Dates
 
-- **Assignment Release**: August 17, 2025
+- **Assignment Release**: August 18, 2025
 - **Submission Deadline**: August 25, 2025, 11:59 PM
-- **Monitoring Workshop**: August 21, 2025 (optional but recommended!)
-- **Peer Review**: August 28, 2025 (optional but encouraged!)
+- **Office Hours**: August 19, 2025 (optional but recommended!)
 
 ---
 
 ## 🏆 Success Stories
 
-Previous students have discovered amazing insights:
+Previous customers of mine have discovered amazing insights:
 - "I found my agent was making 3x more API calls than necessary due to inefficient tool selection"
-- "The trace visualization helped me identify a memory leak in my CSV processing"
 - "LLM-as-a-Judge caught hallucinations I never would have noticed manually"
 - "Cost tracking revealed that 80% of my expenses came from just 20% of conversations"
 
