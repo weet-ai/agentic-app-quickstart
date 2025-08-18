@@ -19,6 +19,7 @@ import polars as pl
 import streamlit as st
 import asyncio
 import tempfile
+import os
 
 
 # Initialize tracing provider for monitoring agent interactions
@@ -27,6 +28,36 @@ tracing_provider = get_tracing_provider()
 
 ### AGENTIC FUNCTIONALITY
 # This section defines the AI agent and its tools for data analysis
+
+@function_tool
+def get_headers(file_path: str) -> list[str]:
+    """
+    Get the column headers from a CSV file.
+    
+    This function reads the CSV file and returns the column names,
+    which helps the agent understand what columns are available for analysis.
+    
+    Args:
+        file_path (str): Absolute path to the CSV file
+    
+    Returns:
+        list[str]: List of column names in the CSV file
+        
+    Raises:
+        Exception: If file reading fails
+        
+    Example:
+        >>> get_headers("/path/to/data.csv")
+        ['id', 'name', 'department', 'salary']
+    """
+    try:
+        # Read just the schema to get column names efficiently
+        df = pl.read_csv(file_path, n_rows=0)
+        return df.columns
+    except Exception as e:
+        print(f"Error occurred while reading headers from file {file_path}: {e}")
+        raise e
+
 
 @function_tool
 def count_unique(file_path: str, target_column: str, extension: str = "csv") -> int:
@@ -59,16 +90,21 @@ def count_unique(file_path: str, target_column: str, extension: str = "csv") -> 
         # Create SQL context for querying
         sql_context = pl.SQLContext()
         
-        # Generate table name from file path (remove extension and slashes)
-        table_name = file_path.replace(f".{extension}", "").replace("/", "_")
+        # Generate a simple table name for SQL context
+        # Use a generic name since the actual file path doesn't matter for the table name
+        table_name = "data_table"
         
         # Register DataFrame as a table in SQL context
         sql_context.register(table_name, df)
         
         # Execute SQL query to count unique values in target column
-        num_unique = sql_context.execute(
+        result = sql_context.execute(
             f"SELECT COUNT(DISTINCT {target_column}) FROM {table_name}"
         ).collect()
+        
+        # Extract the actual count value from the result
+        # The result is a DataFrame with one row and one column
+        num_unique = result[0, 0]
         
     except Exception as e:
         print(f"Error occurred while processing file {file_path}: {e}")
@@ -100,7 +136,7 @@ data_analyzer_agent = Agent(
     name="DataAnalyzerAgent",
     instructions=instructions,
     model=get_model(),  # Get the configured language model
-    tools=[count_unique]  # Available tools for the agent to use
+    tools=[get_headers, count_unique]  # Available tools for the agent to use
 )
 
 ### STREAMLIT INTERFACE
@@ -130,11 +166,21 @@ async def main():
 
         # Save uploaded file to temporary location for processing
         # This allows the agent to access the file via file path
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        # Preserve the original filename by using a temporary directory
+        import os
+        
+        # Create a temporary directory
+        temp_dir = tempfile.mkdtemp()
+        
+        # Create the full path with the original filename
+        tmp_file_path = os.path.join(temp_dir, uploaded_file.name)
+        
+        # Write the file content to the temporary file with original name
+        with open(tmp_file_path, 'wb') as tmp_file:
             tmp_file.write(uploaded_file.getbuffer())
-            tmp_file_path = tmp_file.name
-            # Store file path in session state for persistence across interactions
-            st.session_state.tmp_file_path = tmp_file_path
+            
+        # Store file path in session state for persistence across interactions
+        st.session_state.tmp_file_path = tmp_file_path
 
     # === CHAT HISTORY MANAGEMENT ===
     # Initialize chat history in session state if it doesn't exist
@@ -159,15 +205,24 @@ async def main():
         # Add user message to chat history
         st.session_state.chat_history.append({"role": "user", "content": user_input})
         
+        # Check if a file has been uploaded
+        if 'tmp_file_path' not in st.session_state:
+            # If no file uploaded, inform the user
+            error_message = "Please upload a CSV file first before asking questions about the data."
+            st.session_state.chat_history.append({
+                "role": "assistant", 
+                "content": error_message
+            })
+            st.rerun()
+            return
+        
         # Create formatted prompt for the AI agent
         # Include both file path and user question for context
         prompt_template = dedent("""
-            File path: {file_path}.
-            File name: {uploaded_file_name}
+            File path: {file_path}
             User question: {user_question}
         """).format(
             file_path=st.session_state.tmp_file_path, 
-            uploaded_file_name=uploaded_file.name,
             user_question=user_input
         )
 
