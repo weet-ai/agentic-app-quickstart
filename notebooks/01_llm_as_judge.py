@@ -18,12 +18,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    <img src="https://drive.google.com/file/d/1okL1QWYgrKwz1SjfwRNkoohtD9W3YCuu/view?usp=drive_link" />
-
-    """
-    )
+    mo.md(r"""<img src="https://github.com/weet-ai/agentic-app-quickstart/blob/main/assets/llm_judge.png?raw=true)" />""")
     return
 
 
@@ -105,6 +100,95 @@ async def _(pipeline):
     user_input = "What's the weather forecast for Amsterdam, NL?"
     result = await pipeline(prompt = user_input)
     print(result)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Simple LLM as Judge""")
+    return
+
+
+@app.cell
+def _():
+    from phoenix import Client
+    from phoenix.evals import (
+        TOXICITY_PROMPT_RAILS_MAP,
+        TOXICITY_PROMPT_TEMPLATE,
+        OpenAIModel,
+        llm_classify,
+    )
+    import os
+    import nest_asyncio
+
+    nest_asyncio.apply()
+
+    def get_data(project_name: str = "01_llm_as_judge_example"):
+        client = Client(
+            endpoint="https://app.phoenix.arize.com/s/hello6069",  # Replace with real base URL
+            api_key=os.getenv("PHOENIX_API_KEY")  # Replace with your Bearer token
+        )
+
+        spans_df = client.get_spans_dataframe(
+            project_name=project_name,
+            limit=100  # or suitable number
+        )
+
+
+        # 2. Convert spans/traces into dataset examples format expected by Phoenix
+        dataset_examples = []
+        for _, row in spans_df.sample(n=10).iterrows():
+            example = {
+                "input": row["attributes.input.value"],  # or relevant span input data
+                "output": row["attributes.output.value"]
+            }
+            dataset_examples.append(example)
+
+        return dataset_examples
+
+
+    def evaluate(eval_df):
+
+        print(f"TEMPLATE: {TOXICITY_PROMPT_TEMPLATE}")
+        model = OpenAIModel(
+            base_url=os.getenv("OPENAI_API_ENDPOINT"),
+            api_key=os.getenv("OPENAI_API_KEY"),
+            model="gpt-4.1"
+        )
+
+        #It will remove text such as ",,," or "..."
+        #Will ensure the binary value expected from the template is returned 
+        rails = list(TOXICITY_PROMPT_RAILS_MAP.values())
+        toxic_classifications = llm_classify(
+            data=eval_df,
+            template=TOXICITY_PROMPT_TEMPLATE,
+            model=model,
+            rails=rails,
+            provide_explanation=True, #optional to generate explanations for the value produced by the eval LLM
+            concurrency=5
+        )
+
+        return toxic_classifications
+
+
+    def run_evaluation():
+
+        df = get_data()
+        evaluations = evaluate(eval_df = df)
+        return evaluations
+
+    return (run_evaluation,)
+
+
+@app.cell
+def _(run_evaluation):
+    result_df = run_evaluation()
+    return (result_df,)
+
+
+@app.cell
+def _(result_df):
+    result_df.head()
     return
 
 
