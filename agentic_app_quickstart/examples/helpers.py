@@ -34,11 +34,11 @@ def get_model():
     return model
 
 
-def get_tracing_provider():
+def get_tracing_provider(project_name: str = "llm_as_judge_example"):
 
     tracing_provider = register(
         endpoint=os.getenv("PHOENIX_ENDPOINT"),
-        project_name="agentic_app_quickstart",
+        project_name=project_name,
         protocol="http/protobuf",
         auto_instrument=True
     )
