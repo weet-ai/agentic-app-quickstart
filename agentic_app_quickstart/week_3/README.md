@@ -43,15 +43,12 @@ Transform your Week 2 agent into a secure container:
 - Create a `Dockerfile` following security best practices
 - Use **distroless** or minimal base images (Alpine Linux)
 - Run as **non-root user** with minimal privileges
-- Implement **multi-stage builds** for smaller image size
-- Configure proper **health checks** and **environment variables**
 
 ### 2. **MCP Server Integration (stdio)** 🔗
-Implement your first MCP connection using stdio transport:
-- Create a **custom MCP server** with at least 2 tools
-- Connect your containerized agent to the MCP server
-- Use **stdio transport** for secure local communication within the container
-- Handle MCP protocol handshakes and tool discovery
+Leverage your first MCP server using stdio transport:
+- Create or download an **MCP server** that has at least 2 tools
+- Package both your agentic app and your MCP server in the same container
+- Use **stdio transport** for local communication within the container
 
 ### 3. **Container Security** 🛡️
 Apply security best practices for container deployment:
@@ -63,12 +60,12 @@ Expose your agent via RESTful API:
 - `/chat` endpoint for conversations
 - `/health` endpoint for monitoring
 - Proper error handling and response formatting
-- Optional: `/metrics` endpoint for basic monitoring compatibility
 
-### 5. **All-in-One Container Setup** 📦
+### **Recap: All-in-One Container Setup** 📦
 Create a single, self-contained containerized application:
 - Agent application with REST API endpoints
 - Sample CSV files baked into the container for testing
+- MCP Server with stdio transport running in the same container (can be any MCP server: you can create a simple one which tells your agent the current time - or one which helps your agent navigate the Pandas documentation)
 - All dependencies and configurations included in one deployable unit
 
 ---
@@ -81,7 +78,7 @@ Extract and migrate your existing agent functionality into a proper MCP architec
 **🔄 Tool Migration Strategy**
 - **Extract existing function tools**: Move all CSV analysis functions from your agent code into a dedicated MCP server (still running locally via stdio)
 - **Implement MCP protocol**: Convert your Week 1 function tools (`calculate_column_average`, `count_rows_with_value`, etc.) into proper MCP tools with standardized input/output schemas
-- **Decouple agent logic**: Your agent container now communicates with tools via MCP protocol rather than direct function calls, creating a clean separation of concerns between reasoning (agent) and execution (MCP tools)
+- **Decouple agent logic**: Your agent container now communicates with tools via MCP protocol rather than direct function calls, creating a separation of concerns between reasoning (agent) and execution (MCP tools)
 
 **🚨 Robust Error Handling**
 ```python
@@ -104,23 +101,19 @@ async def calc_avg(filepath: str, column_name: str) -> str:
         return "Error: Unable to calculate average - check data types"
 ```
 
-### 🥈 Silver Level: Multi-Container Architecture with Streamable HTTP + mTLS
+### 🥈 Silver Level: Multi-Container Architecture with Streamable HTTP
 Implement production-ready MCP with network security using multiple containers:
 
 **🌐 Multi-Container Setup with Docker Compose**
 - Agent container with REST API
 - Separate MCP server container accessible via network
-- NGINX reverse proxy container for TLS termination
 - Proper service dependencies and inter-container networking
 
 **🌐 Streamable HTTP Transport**
 - Migrate from stdio to **Streamable HTTP** for network-based MCP
-- Implement proper HTTP/2 streaming for real-time tool interactions
-- Handle connection pooling and retry logic
-- Support multiple concurrent MCP connections
 
-**🔐 Mutual TLS (mTLS) Authentication**
-Following the security patterns from the inspiration repo:
+**🔐 Optional: Mutual TLS (mTLS) Authentication**
+Following the security patterns from [this example repo](https://github.com/weet-ai/agentic-app-openai-agents-sdk-mcp-example):
 ```bash
 # Generate certificates for secure MCP communication
 docker build -t cert-generator ./certs-generator
@@ -150,23 +143,20 @@ Agent:
 3. 🧹 Applies intelligent cleaning rules
 4. 📊 Generates statistical summaries
 5. 📈 Creates visualizations
-6. 📄 Produces formatted report
 ```
 
 **Multi-File Intelligence:**
 - **Schema detection**: Automatically understand data structures
 - **Data validation**: Detect and handle inconsistencies
 - **Smart joins**: Automatically correlate related datasets
-- **Quality scoring**: Assess and improve data quality
-- **Automated insights**: Generate business intelligence reports
-- **Advanced MCP toolchain**: Build sophisticated MCP servers that can handle complex data workflows beyond simple CSV analysis
+- **Advanced MCP toolchain**: Build sophisticated MCP servers that can handle complex data workflows beyond simple analysis
 
 ---
 
 ## 🚀 Getting Started
 
 ### Step 1: Study the Security Reference
-Review the inspiration repo architecture:
+Review the [sample repo architecture](https://github.com/weet-ai/agentic-app-openai-agents-sdk-mcp-example):
 - Container security best practices
 - MCP protocol implementation patterns
 - mTLS certificate generation and management
@@ -197,9 +187,8 @@ Start with stdio transport within your container:
 **For Silver Level (Multi-Container + mTLS):**
 1. Split your application into multiple containers
 2. Generate certificates using the provided tooling
-3. Set up NGINX reverse proxy for TLS termination
-4. Migrate MCP connections to HTTP transport
-5. Implement mutual authentication
+3. Migrate MCP connections to HTTP transport
+4. Implement mutual authentication
 
 **For Gold Level (Agentic ETL):**
 1. Design intelligent data processing workflows
@@ -253,11 +242,6 @@ async def get_column_names(filepath: str) -> str:
 async def execute_sql(connection_string: str, query: str) -> str:
     """Execute SQL queries with safety checks"""
 
-# HTTP operations  
-@mcp_tool("http_request")
-async def http_request(url: str, method: str, headers: dict) -> dict:
-    """Make HTTP requests with authentication and rate limiting"""
-
 # Computation tools
 @mcp_tool("calculate_statistics")
 async def calc_stats(data: List[float]) -> dict:
@@ -279,7 +263,7 @@ async def calc_stats(data: List[float]) -> dict:
 
 3. **API Documentation**: OpenAPI/Swagger specs for your HTTP endpoints
 
-4. **Demo**: Deploy your containerized agent and share screenshots/video in #week3
+4. **Demo**: Deploy your containerized agent and share screenshots/video on Slack
 
 ---
 
@@ -309,8 +293,6 @@ async def calc_stats(data: List[float]) -> dict:
 - [ ] **Input validation** for all tool parameters
 - [ ] **Path traversal protection** for file operations
 - [ ] **SQL injection prevention** for database tools
-- [ ] **Rate limiting** on tool executions
-- [ ] **Audit logging** for tool usage
 - [ ] **Certificate validation** (Silver/Gold levels)
 
 ### Network Security
@@ -353,11 +335,11 @@ By completing this assignment, you will:
 
 **Stuck? Here's your support system:**
 
-1. **Security Reference Repo** - Study the mTLS implementation patterns
-2. **Office hours** - Every Tuesday, 7 PM GMT+2  
+1. **Security Reference Repo** - [Study the mTLS implementation patterns](https://github.com/weet-ai/agentic-app-openai-agents-sdk-mcp-example)
+2. **Office hours & 1x1 Sessions**
 3. **#help channel** - Container and MCP specific questions
 4. **Docker Documentation** - Security best practices
-5. **MCP Specification** - Protocol details and examples
+5. **[MCP Specification](https://modelcontextprotocol.io/docs/getting-started/intro)** - Protocol details and examples
 
 **Pro Tips:**
 - Start with basic Docker containerization before adding MCP
