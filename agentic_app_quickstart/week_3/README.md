@@ -32,7 +32,7 @@ Agents need to interact with external systems:
 - 🌐 REST APIs and microservices
 - 🔍 Search engines and knowledge bases
 
-MCP provides a **standardized protocol** for secure tool integration - think of it as USB-C for AI agents!
+For enterprises who envision multiple agents consuming and reusing multiple different internal tools, MCP provides a good foundation to improve standardisation and discoverability.
 
 ---
 
